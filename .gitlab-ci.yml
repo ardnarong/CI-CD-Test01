@@ -4,6 +4,9 @@
 # you can delete this line if you're not using Docker
 image: busybox:latest
 
+services:
+  - docker:dind    
+
 before_script:
   - echo "Before script section"
 
@@ -15,6 +18,13 @@ stages:
   - test
   - deploy
 
+build0:
+  stage: build
+  script:
+    - apk add --no-cache py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
+    - pip install docker-compose
+    - docker-compose up -d
+    
 build1:
   stage: build
   script:
